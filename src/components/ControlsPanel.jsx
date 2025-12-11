@@ -46,9 +46,6 @@ export default function ControlsPanel(props) {
             }}
           />
         </div>
-        <div className="slider-track">
-          <div className="slider-fill" style={{ width: `${percentage}%` }}></div>
-        </div>
       </div>
     );
   };
@@ -59,7 +56,7 @@ export default function ControlsPanel(props) {
 
       <section className="panel-section">
         <h3 className="section-header">⚡ Energy Supply</h3>
-        <div className="grid grid-cols-2 gap-4">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
           <Range label="Coal" value={coal} onChange={setCoal} />
           <Range label="Renewables" value={renewables} onChange={setRenewables} />
           <Range label="Oil" value={oil} onChange={setOil} />

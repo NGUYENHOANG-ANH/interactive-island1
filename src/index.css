@@ -2,43 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* custom range appearance */
-input[type="range"].range-blue {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 6px;
-  background: linear-gradient(90deg, #0ea5e9 0%, #0ea5e9 var(--percent), #e6e6e6 var(--percent), #e6e6e6 100%);
-  border-radius: 999px;
-  outline: none;
+* {
+  margin: 0;
+  padding:  0;
+  box-sizing: border-box;
 }
 
-/* track for firefox */
-input[type="range"].range-blue::-moz-range-track {
-  height: 6px;
-  background: #e6e6e6;
-  border-radius: 999px;
+body {
+  font-family:  -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* thumb */
-input[type="range"].range-blue::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #0ea5e9;
-  box-shadow: 0 0 0 4px rgba(14,165,233,0.12);
-  border: 2px solid white;
-  cursor: pointer;
-  margin-top: -4px;
+#root {
+  width: 100%;
+  height:  100%;
 }
-
-/* fallback firefox thumb */
-input[type="range"].range-blue::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #0ea5e9;
-  border: none;
-}
-
-/* dynamic background percentage — JS will set CSS var --percent on input */

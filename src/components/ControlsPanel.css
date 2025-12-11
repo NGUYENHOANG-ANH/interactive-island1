@@ -2,11 +2,15 @@
 .controls-panel {
   width: 100%;
   max-width: 384px;
+  min-width: 280px;
   padding: 1rem;
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   height: 100vh;
+  flex-shrink: 0;
+  border-right: 1px solid #e5e7eb;
+  box-sizing: border-box;
 }
 
 .controls-panel::-webkit-scrollbar {
@@ -50,7 +54,7 @@
   font-size: 0.875rem;
   font-weight: 600;
   background: #f3f4f6;
-  padding: 0.5rem 0. 75rem;
+  padding: 0.5rem 0.75rem;
   margin-bottom: 1rem;
   border-radius:  4px;
   color: #374151;
@@ -78,13 +82,14 @@
 
 .slider-value {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight:  600;
   color: #3b82f6;
   background: #dbeafe;
   padding: 0.25rem 0.5rem;
   border-radius:  4px;
   min-width: 2. 5rem;
   text-align: center;
+  display: inline-block;
 }
 
 .slider-wrapper {
@@ -95,13 +100,14 @@
 /* === Range Input === */
 .slider-input {
   width: 100%;
-  height:  8px;
-  border-radius: 4px;
+  height: 8px;
+  border-radius:  4px;
   outline: none;
   -webkit-appearance: none;
   appearance: none;
-  cursor:  pointer;
+  cursor: pointer;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 /* Webkit (Chrome, Safari, Edge) */
@@ -130,8 +136,8 @@
 
 /* Firefox */
 .slider-input::-moz-range-thumb {
-  width:  20px;
-  height:  20px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   cursor: pointer;
@@ -147,12 +153,12 @@
 }
 
 .slider-input::-moz-range-track {
-  background:  transparent;
+  background: transparent;
   border: none;
 }
 
 .slider-input::-moz-range-progress {
-  background:  #3b82f6;
+  background: #3b82f6;
   border-radius: 4px;
 }
 
@@ -161,7 +167,18 @@
   font-size: 0.75rem;
   color: #9ca3af;
   margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e5e7eb;
-  text-align:  center;
+  padding-top:  1rem;
+  border-top:  1px solid #e5e7eb;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width:  768px) {
+  .controls-panel {
+    max-width: 100%;
+    width: 100%;
+    height: 50vh;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
 }
