@@ -1,0 +1,63 @@
+.scene-selector {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: white;
+  padding: 16px;
+  border-radius:  12px;
+  box-shadow:  0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 50;
+  max-width: 280px;
+}
+
+.scene-selector h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.scene-buttons {
+  display:  flex;
+  flex-direction:  column;
+  gap: 8px;
+}
+
+.scene-btn {
+  padding: 12px;
+  background: #f3f4f6;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.scene-btn:hover {
+  background:  #e5e7eb;
+  border-color: #3b82f6;
+}
+
+.scene-btn.active {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border-color: #1d4ed8;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.scene-label {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.scene-desc {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.scene-btn.active .scene-desc {
+  opacity: 0. 9;
+}

@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { Canvas } from "@react-three/fiber";
 
 import ControlsPanel from "./components/ControlsPanel";
-import IslandMesh from "./components/IslandMesh";
-import WaterPlane from "./components/WaterPlane";
+import SceneSelector from "./components/SceneSelector";
+import DashboardTabs from "./components/DashboardTabs";
+import ErrorBoundary from "./components/ErrorBoundary";
 
+import CanvasWrapper from "./CanvasWrapper"; 
 import { runClimateModel } from "./climate/climateModel";
 
 export default function App() {
+  const [activeScene, setActiveScene] = useState("main");
 
-  // --- tất cả sliders bạn muốn chạy model ---
+  // ===== ENERGY SUPPLY =====
   const [coal, setCoal] = useState(20);
   const [oil, setOil] = useState(20);
   const [naturalGas, setNaturalGas] = useState(20);
@@ -19,23 +21,28 @@ export default function App() {
   const [zeroCarbonNew, setZeroCarbonNew] = useState(10);
   const [carbonPrice, setCarbonPrice] = useState(0);
 
+  // ===== TRANSPORT =====
   const [energyEfficiencyTransport, setEnergyEfficiencyTransport] = useState(10);
   const [electrification, setElectrification] = useState(10);
 
+  // ===== BUILDINGS & INDUSTRY =====
   const [energyEfficiencyBuildings, setEnergyEfficiencyBuildings] = useState(10);
   const [electrificationBuildings, setElectrificationBuildings] = useState(10);
 
+  // ===== GROWTH =====
   const [population, setPopulation] = useState(20);
   const [economicGrowth, setEconomicGrowth] = useState(20);
 
+  // ===== CO2 REMOVAL =====
   const [natureBased, setNatureBased] = useState(10);
   const [technological, setTechnological] = useState(10);
 
+  // ===== GREENHOUSE GASES =====
   const [agriculturalEmissions, setAgriculturalEmissions] = useState(20);
   const [wasteLeakage, setWasteLeakage] = useState(20);
   const [deforestation, setDeforestation] = useState(30);
 
-  // === RUN CLIMATE MODEL ===
+  // ===== CLIMATE MODEL =====
   const climate = runClimateModel({
     coal, oil, naturalGas, bioenergy, renewables, nuclear, zeroCarbonNew,
     carbonPrice,
@@ -46,12 +53,12 @@ export default function App() {
     agriculturalEmissions, wasteLeakage, deforestation
   });
 
-  // Sea level returned in meters → map to 3D units
-  const seaLevelUnits = climate.seaLevel * 0.35;    // scale for 3D
+  const seaLevelUnits = climate.seaLevel * 0.35;
 
   return (
     <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
 
+      {/** ========== LEFT PANEL ========== */}
       <ControlsPanel
         coal={coal} setCoal={setCoal}
         oil={oil} setOil={setOil}
@@ -61,47 +68,39 @@ export default function App() {
         nuclear={nuclear} setNuclear={setNuclear}
         zeroCarbonNew={zeroCarbonNew} setZeroCarbonNew={setZeroCarbonNew}
         carbonPrice={carbonPrice} setCarbonPrice={setCarbonPrice}
-
         energyEfficiencyTransport={energyEfficiencyTransport}
         setEnergyEfficiencyTransport={setEnergyEfficiencyTransport}
         electrification={electrification}
         setElectrification={setElectrification}
-
         energyEfficiencyBuildings={energyEfficiencyBuildings}
         setEnergyEfficiencyBuildings={setEnergyEfficiencyBuildings}
         electrificationBuildings={electrificationBuildings}
         setElectrificationBuildings={setElectrificationBuildings}
-
         population={population} setPopulation={setPopulation}
         economicGrowth={economicGrowth} setEconomicGrowth={setEconomicGrowth}
-
         natureBased={natureBased} setNatureBased={setNatureBased}
         technological={technological} setTechnological={setTechnological}
-
         agriculturalEmissions={agriculturalEmissions}
         setAgriculturalEmissions={setAgriculturalEmissions}
-        wasteLeakage={wasteLeakage}
-        setWasteLeakage={setWasteLeakage}
-        deforestation={deforestation}
-        setDeforestation={setDeforestation}
+        wasteLeakage={wasteLeakage} setWasteLeakage={setWasteLeakage}
+        deforestation={deforestation} setDeforestation={setDeforestation}
       />
 
-      <div style={{ flex: 1 }}>
-        <Canvas camera={{ position: [6, 6, 8], fov: 45 }}>
-          <ambientLight intensity={0.7} />
-          <directionalLight intensity={1.2} position={[5, 10, 5]} />
+      {/** ========== RIGHT PANEL (3D + Dashboard) ========== */}
+      <div style={{ flex: 1, position: "relative" }}>
 
-          <IslandMesh
-  coal={coal}
-  renewables={renewables}
-  deforestation={deforestation}
-  seaLevel={seaLevelUnits}
-/>
+        <SceneSelector activeScene={activeScene} setActiveScene={setActiveScene} />
 
-<WaterPlane seaLevel={seaLevelUnits} color="#0b63a6" />
+        <ErrorBoundary>
+          {/* ✅ Canvas wrapper - NO Suspense inside!  */}
+          <CanvasWrapper
+            activeScene={activeScene}
+            climate={climate}
+            seaLevelUnits={seaLevelUnits}
+          />
+        </ErrorBoundary>
 
-          <WaterPlane seaLevel={seaLevelUnits} color="#0b63a6" />
-        </Canvas>
+        <DashboardTabs climate={climate} />
       </div>
     </div>
   );
